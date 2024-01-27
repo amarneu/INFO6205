@@ -33,7 +33,13 @@ public class TwoSumBenchmark {
 
     private void benchmarkTwoSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+        final Benchmark_Timer<int[]> benchmarkTimer = new Benchmark_Timer<>(description, function, null);
+        for (TimeLogger timeLogger : timeLoggers) {
+            final double time = benchmarkTimer.runFromSupplier(supplier, runs);
+            timeLogger.log(time, n);
+        }
+         
 
 
 
