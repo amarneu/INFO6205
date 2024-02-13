@@ -8,7 +8,7 @@
 package edu.neu.coe.info6205.union_find;
 
 import java.util.Arrays;
-
+import java.util.Scanner;
 /**
  * Height-weighted Quick Union with Path Compression
  */
@@ -82,12 +82,13 @@ public class UF_HWQUPC implements UF {
         validate(p);
         int root = p;
         // TO BE IMPLEMENTED 
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        while(root != parent[root]){
+            if(this.pathCompression){
+                doPathCompression(root);
+            }
+            root = parent[root];
+        }
+        return root;
     }
 
     /**
@@ -149,10 +150,12 @@ throw new RuntimeException("implementation missing");
         }
     }
 
+    @SuppressWarnings("unused")
     private void updateParent(int p, int x) {
         parent[p] = x;
     }
 
+    @SuppressWarnings("unused")
     private void updateHeight(int p, int x) {
         height[p] += height[x];
     }
@@ -163,6 +166,7 @@ throw new RuntimeException("implementation missing");
      * @param i the component
      * @return the parent of the component
      */
+    @SuppressWarnings("unused")
     private int getParent(int i) {
         return parent[i];
     }
@@ -174,13 +178,16 @@ throw new RuntimeException("implementation missing");
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED  make shorter root point to taller one
-
-
-
-
-
-
-
+        if(i == j){
+            return;
+        }
+        if(height[i] < height[j]){
+            parent[i] = j;
+            height[j] += height[i];
+        }else{  // height[i] >= height[j]
+            parent[j] = i;
+            height[i] += height[j];
+        }
         // SKELETON
         // END SOLUTION
     }
@@ -190,8 +197,40 @@ throw new RuntimeException("implementation missing");
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED  update parent to value of grandparent
-
+        parent[i] = parent[parent[i]];
         // SKELETON
         // END SOLUTION
+    }
+    // Step 2:
+    public static void main(String[] args){
+        {
+            int runs = 50;
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter the number of objects: ");
+            while(sc.hasNext()) {
+                int N = sc.nextInt();
+                int count =0;
+                for(int i=0;i<runs;i++) {
+                    count+= count(N);
+                }
+                int avg = count/runs;
+                System.out.println("No.of objects " + N + " and the average of number of pairs generated for "+runs+" runs is: " + avg);
+                System.out.println("Enter the number of sites: ");
+            }
+        }
+    }
+    
+    private static  int count(int n){
+        UF_HWQUPC uf = new UF_HWQUPC(n);
+        int count = 0;
+        while(uf.components() > 1){
+            int p = (int)(Math.random() * n);
+            int q = (int)(Math.random() * n);
+            if(!uf.connected(p, q)){
+                uf.union(p, q);
+            }
+            count++;
+        }
+        return count;
     }
 }
