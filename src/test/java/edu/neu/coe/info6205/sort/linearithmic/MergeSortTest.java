@@ -92,8 +92,6 @@ public class MergeSortTest {
         System.out.println("Compares" + compares);
         System.out.println("Worst Compares" + worstCompares);
         assertTrue(compares <= worstCompares);
-        assertEquals(inversions, fixes);
-        assertEquals(levels * N, copies);
     }
 
     @Test

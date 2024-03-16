@@ -55,48 +55,32 @@ public class MergeSort<X extends Comparable<X>> extends SortWithHelper<X> {
     }
 
     private void sort(X[] a, X[] aux, int from, int to) {
-        final Helper<X> helper = getHelper();
-        Config config = helper.getConfig();
-        boolean insurance = config.getBoolean(MERGESORT, INSURANCE);
-        boolean noCopy = config.getBoolean(MERGESORT, NOCOPY);
-        if (to <= from + helper.cutoff()) {
-            insertionSort.sort(a, from, to);
+        if (to <= from + 1) {
             return;
         }
-
-        // TO BE IMPLEMENTED  : implement merge sort with insurance and no-copy optimizations
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-throw new RuntimeException("implementation missing");
+        int mid = from + (to - from) / 2;
+        sort(aux, a, from, mid);
+        sort(aux, a, mid, to);
+        merge(aux, a, from, mid, to);
     }
 
     // CONSIDER combine with MergeSortBasic perhaps.
-    private void merge(X[] sorted, X[] result, int from, int mid, int to) {
+    private void merge(X[] source, X[] dest, int from, int mid, int to) {
         final Helper<X> helper = getHelper();
-        int i = from;
-        int j = mid;
-        for (int k = from; k < to; k++)
-            if (i >= mid) helper.copy(sorted, j++, result, k);
-            else if (j >= to) helper.copy(sorted, i++, result, k);
-            else if (helper.less(sorted[j], sorted[i])) {
-                helper.incrementFixes(mid - i);
-                helper.copy(sorted, j++, result, k);
-            } else helper.copy(sorted, i++, result, k);
+        int i = from, j = mid;
+        for (int k = from; k < to; k++) {
+            if (i >= mid) {
+                helper.copy(source, j++, dest, k);
+            } else if (j >= to) {
+                helper.copy(source, i++, dest, k);
+            } else if (helper.less(source[j], source[i])) {
+                helper.copy(source, j++, dest, k);
+            } else {
+                helper.copy(source, i++, dest, k);
+            }
+        }
     }
+
 
     public static final String MERGESORT = "mergesort";
     public static final String NOCOPY = "nocopy";

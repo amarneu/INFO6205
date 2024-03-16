@@ -12,6 +12,8 @@ import edu.neu.coe.info6205.sort.elementary.RandomSort;
 import edu.neu.coe.info6205.sort.elementary.ShellSort;
 import edu.neu.coe.info6205.sort.linearithmic.TimSort;
 import edu.neu.coe.info6205.sort.linearithmic.*;
+import edu.neu.coe.info6205.sort.HelperFactory;
+import edu.neu.coe.info6205.sort.elementary.HeapSort;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -94,6 +96,11 @@ public class SortBenchmark {
 
         if (isConfigBenchmarkStringSorter("quicksort"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_Basic<>(nWords, config), timeLoggersLinearithmic);
+
+        if (isConfigBenchmarkStringSorter("heapsort")) {
+            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
+            runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
+        }
 
         if (isConfigBenchmarkStringSorter("introsort"))
             runStringSortBenchmark(words, nWords, nRuns, new IntroSort<>(nWords, config), timeLoggersLinearithmic);

@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] ar = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] ar = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         int res1 = binarySearch(ar, 0, ar.length - 1, 3);
         System.out.println(res1);
         int res2 = Arrays.binarySearch(ar, 0, ar.length, 3);
@@ -19,17 +19,16 @@ public class BinarySearch {
         int lo = low;
         int hi = to;
         while (hi > lo) {
-            // TO BE IMPLEMENTED  : implement binary search
-
-
-
-
-
-
-
-
-            // SKELETON CODE
-             return -1;
+            // TO BE IMPLEMENTED : implement binary search
+            int mid = lo + (hi - lo) / 2;
+            if (a[mid] < key) {
+                lo = mid + 1;
+            } else if (a[mid] > key) {
+                hi = mid - 1;
+            } else {
+                return mid;
+            }
+            return mid;
             // END SOLUTION
         }
         return -1;
